@@ -308,7 +308,7 @@ public class Biblioteca2025 {
         }
     }
     private void aumentarEjemplares(){
-        
+        System.out.println("");
 }
 //</editor-fold>
     
