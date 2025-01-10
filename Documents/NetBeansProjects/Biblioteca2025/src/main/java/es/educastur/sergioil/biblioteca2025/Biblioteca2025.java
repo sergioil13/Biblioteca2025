@@ -32,7 +32,7 @@ public class Biblioteca2025 {
         
     }
 
-    public void cargaDatos(){
+  public void cargaDatos(){
         libros.add(new Libro("1-11","El Hobbit","JRR Tolkien","Aventuras",3)); 
         libros.add(new Libro("1-22","El Silmarillon","JRR Tolkien","Aventuras",3)); 
         libros.add(new Libro("1-33","El Médico","N. Gordon","Aventuras",4)); 
@@ -70,7 +70,7 @@ public class Biblioteca2025 {
             System.out.println(p);
         }
     }
-   //<editor-fold defaultstate="collapsed" desc="GESTION DE MENUS">
+ //<editor-fold defaultstate="collapsed" desc="GESTION DE MENUS">
     private void menuPrincipal()
     {
         Scanner sc = new Scanner (System.in);
@@ -226,11 +226,67 @@ public class Biblioteca2025 {
         }
         while(opcion != 9);
     }
+     
+     private void menuIncorrecto()
+    {
+        Scanner sc = new Scanner (System.in);
+        int opcion = 0;
+        do
+        {
+            System.out.println("\t\t\t\t1-VOLVER A TECLEAR");
+            System.out.println("\t\t\t\t2-AÑADIR EJEMPLARES");
+            System.out.println("\t\t\t\t3-IR AL MENU");
+
+            
+            opcion = sc.nextInt();
+            switch (opcion)
+            {
+                case 1:
+                {
+                    nuevoLibro();
+                    break;
+                }
+                
+                case 2:
+                {
+                    nuevoLibro();
+                    break;
+                }
+                case 3:
+                {
+                    menuLibros();
+                    break;
+                }
+                
+                
+            }
+        }
+        while(opcion != 9);
+    }
+     
      //</editor-fold>
      
-   //<editor-fold defaultstate="collapsed" desc="GESTION DE LIBROS">
+ //<editor-fold defaultstate="collapsed" desc="GESTION DE LIBROS">
     private void nuevoLibro()
     {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Escribe el isbn del libro");
+         String isbn =solicitaIsbn() ;
+         int posIsbn=buscaIsbn(isbn); 
+         if(posIsbn!=-1){
+             System.out.println("El libro ya esta registrado en la biblioteca");
+             menuIncorrecto();
+         }else{
+         System.out.println("Escribe el titulo del libro");
+        String titulo=sc.nextLine();
+        System.out.println("Escribe el autor del libro");
+        String autor=sc.nextLine();
+        System.out.println("Escribe el genero del libro");
+        String genero=sc.nextLine();
+        System.out.println("Escribe el numero de ejemplares");
+        int ejemplares=sc.nextInt();
+        libros.add(new Libro(isbn,titulo,autor,genero,ejemplares));
+         }
         
     }
 
@@ -251,9 +307,12 @@ public class Biblioteca2025 {
             System.out.println(l);
         }
     }
+    private void aumentarEjemplares(){
+        
+}
 //</editor-fold>
     
-   //<editor-fold defaultstate="collapsed" desc="GESTION DE USUARIOS">
+ //<editor-fold defaultstate="collapsed" desc="GESTION DE USUARIOS">
     private void nuevoUsuario()
     {
         Scanner sc=new Scanner(System.in);
@@ -285,7 +344,7 @@ public class Biblioteca2025 {
 
     private void modificarUsuario()
     {
-        
+                           
     }
 
     private void listaUsuario()
@@ -293,10 +352,14 @@ public class Biblioteca2025 {
         for (Usuario u : usuarios) {
             System.out.println(u);
         }
-    }
-//</editor-fold>
+        
     
-  //<editor-fold defaultstate="collapsed" desc="GESTION DE PRESTAMOS">
+    }
+    
+   
+//</editor-fold>
+          
+ //<editor-fold defaultstate="collapsed" desc="GESTION DE PRESTAMOS">
     private void nuevoPrestamo()
     {   
         LocalDate hoy = LocalDate.now();
@@ -399,6 +462,30 @@ public class Biblioteca2025 {
         return isbn;
     }
 //</editor-fold>
+    public int buscaPrestamo(String dni, String isbn){
+    int pos=-1;
+    for (int i = 0; i < prestamos.size(); i++) {
+        if(prestamos.get(i).getUsuarioPrest().getDni().equals(dni) && prestamos.get(i).getLibroPrest().getIsbn().equals(isbn)){
+        pos=i;
+        break;
+        }
+        
+    }
+    return pos;
+    }
+    
+    private void prorroga(){
+        System.out.println("Datos para la prorroga del prestamo");
+        int pos=buscaPrestamo(solicitaDni(),solicitaIsbn());
+        if (pos==-1) {
+            System.out.println("No hay ningun libro cos esos datos");
+        }else{
+        
+        prestamos.get(pos).setFechaDev(prestamos.get(pos).getFechaDev().plusDays(15));
+        }
+    }
 }
      
+
+
 
