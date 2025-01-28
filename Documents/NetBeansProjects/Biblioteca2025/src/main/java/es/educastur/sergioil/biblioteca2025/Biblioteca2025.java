@@ -614,7 +614,18 @@ public class Biblioteca2025 {
         prestamos.get(pos).setFechaPrest(LocalDate.now());
         }
     }
+
+
+ /**
+ *mi aportacion
+ * @author mateo
+ */
+    private void aportacion2(){
+
+    }
 }
+
+
      
 
 
